@@ -1,0 +1,76 @@
+
+h1. Bayes
+
+Bayes is a Domain-Specific Language for probability theory. The goal is to mimic mathematical notation as closely as possible. There is an emphasis on choice in the API - many expressions can be written in several different ways, allowing you to choose between being concise and explicit. I have grand plans of expanding it into a full probability/statistics package, but for now the project is much more modest.
+
+h1. So, what does it look like?
+
+I'm glad you asked!
+
+Working with boolean random variables:
+<code>
+  p = Bayes::P.new
+  a = Bayes::RV.new
+
+  p[a] = { true => 0.1, false => 0.9 }
+  #or...
+  p[a] = [0.1, 0.9]
+  #or even...
+  p[a] = [0.1] #final value is inferred
+
+  p[ a[true] ] = 0.1
+  p[+a] #=> 0.1
+  p[~a] #=> 0.9
+  p[a] #=> [0.1, 0.9]
+</code>
+
+Discrete random variables:
+<code>
+  p = Bayes::P.new
+  a = Bayes::RV.new [:yes, :no, :maybe], [0.1, 0.4, 0.5]
+
+  p[ a[:yes] ] #=> 0.1
+  p[ a.maybe ] = 0.7
+  p[ a.no ] = 0.2
+  p[a] #=> [0.1, 0.2, 0.7]
+</code>
+
+h1. TODO
+
+*Package as a gem*
+
+*Compound Variables*
+Something like this:
+<code>
+  p = Bayes::P.new
+  a = Bayes::RV.new :bool, [0.1, 0.9]
+  b = Bayes::RV.new :bool
+
+  p[b & a] = { :true =>  { :true => 0.25, :false => 0.75 }, 
+             :false => { :true => 0.1, :false => 0.9 } }
+
+  p[+b & ~a] #=> 0.75
+</code>
+
+*Conditional Variables*
+Something like this:
+<code>
+  p = Bayes::P.new
+  a = Bayes::RV.new :bool, [0.1, 0.9]
+  b = Bayes::RV.new :bool
+
+  p[b|a] = { :true =>  { :true => 0.25, :false => 0.75 },
+             :false => { :true => 0.1, :false => 0.9 } }
+
+  p[+b|~a] #=> 0.75
+</code>
+
+*Continuous Variables*
+Something like this:
+<code>
+  p = Bayes::P.new
+  a = Bayes::RV.new :continuous, :normal => { :mean => 1, :variance: 0.2 }
+
+  p[ a[1.2] ] = #=> whatever this is 
+</code>
+
