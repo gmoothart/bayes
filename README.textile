@@ -8,7 +8,7 @@ h1. So, what does it look like?
 I'm glad you asked!
 
 Working with boolean random variables:
-<code>
+<pre><code>
   p = Bayes::P.new
   a = Bayes::RV.new
 
@@ -22,10 +22,10 @@ Working with boolean random variables:
   p[+a] #=> 0.1
   p[~a] #=> 0.9
   p[a] #=> [0.1, 0.9]
-</code>
+</code></pre>
 
 Discrete random variables:
-<code>
+<pre><code>
   p = Bayes::P.new
   a = Bayes::RV.new [:yes, :no, :maybe], [0.1, 0.4, 0.5]
 
@@ -33,7 +33,7 @@ Discrete random variables:
   p[ a.maybe ] = 0.7
   p[ a.no ] = 0.2
   p[a] #=> [0.1, 0.2, 0.7]
-</code>
+</code></pre>
 
 h1. TODO
 
@@ -41,7 +41,7 @@ h1. TODO
 
 *Compound Variables*
 Something like this:
-<code>
+<pre><code>
   p = Bayes::P.new
   a = Bayes::RV.new :bool, [0.1, 0.9]
   b = Bayes::RV.new :bool
@@ -50,11 +50,11 @@ Something like this:
              :false => { :true => 0.1, :false => 0.9 } }
 
   p[+b & ~a] #=> 0.75
-</code>
+</code></pre>
 
 *Conditional Variables*
 Something like this:
-<code>
+<pre><code>
   p = Bayes::P.new
   a = Bayes::RV.new :bool, [0.1, 0.9]
   b = Bayes::RV.new :bool
@@ -63,14 +63,14 @@ Something like this:
              :false => { :true => 0.1, :false => 0.9 } }
 
   p[+b|~a] #=> 0.75
-</code>
+</code></pre>
 
 *Continuous Variables*
 Something like this:
-<code>
+<pre><code>
   p = Bayes::P.new
   a = Bayes::RV.new :continuous, :normal => { :mean => 1, :variance: 0.2 }
 
   p[ a[1.2] ] = #=> whatever this is 
-</code>
+</code></pre>
 
